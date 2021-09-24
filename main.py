@@ -2,13 +2,22 @@ import csv
 import re
 from datetime import datetime
 
+# We have 4 steps to format the output of lines from a file:
+
+	# 1. open csv file and fill lines, workers, dates no-repat
+	# 2. sorts workers and dates
+	# 3. # find the number of working days, non-working days
+		 # create line for dater for each worker
+		 # write line to writeLines
+	# 4. Write new csv file
+
 # default values
 lines = []
 dates = []
 workers = []
 writeLines = []
 
-# open file and fill lines, workers, dates no-repat
+# 1. open file and fill lines, workers, dates no-repat
 with open('acme_worksheet.csv') as inputfile:
 	firstLine = []
 	firstLine.append('Name / Date')
@@ -27,13 +36,14 @@ with open('acme_worksheet.csv') as inputfile:
 		lines.append(line)
 	writeLines.append(firstLine)
 
-# sorts workers and dates
+# 2. sorts workers and dates
 workers.sort()
 dates.sort(key=lambda date: datetime.strptime(date, "%b %d %Y"))
 
 
-# search work days for each worker
-# search all days for each worker
+# 3. find the number of working days, non-working days
+# create line for dater for each worker
+# write line to writeLines
 for worker in workers:
 	workerWorkDays = {line['Date'] : line['Work Hours'] for line in lines if line['Employee Name'] == worker}
 	workerAllDays = [workerWorkDays[date] if date in workerWorkDays.keys() else 0 for date in dates ]
